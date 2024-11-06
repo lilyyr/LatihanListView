@@ -7,7 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
-    android:weightSum="11">
+    android:weightSum="12">
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/searchvw"/>
 
     <ListView
         android:layout_width="match_parent"

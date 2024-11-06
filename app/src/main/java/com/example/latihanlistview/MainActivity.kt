@@ -4,16 +4,25 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.latihanlistview.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    @RequiresApi(35)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -48,6 +57,21 @@ class MainActivity : AppCompatActivity() {
             data.removeFirst()
             lvAdapter.notifyDataSetChanged()
         }
+
+        binding.lv1.adapter = lvAdapter
+
+        binding.searchvw.setOnQueryTextListener(object : OnQueryTextListener,
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                lvAdapter.getFilter().filter(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                lvAdapter.getFilter().filter(newText)
+                return false
+            }
+        })
 
     }
 }
